@@ -111,3 +111,15 @@ class Weibull(Distribution):
         return  1. - np.exp(-(x/l)**k)
 
 
+class Uniform(Distribution):
+    """
+    Uniform distribution
+    """
+    def __init__(self):
+        pass
+    
+    def pdf(self, x):
+        return  np.ones_like(x)
+    
+    def cdf(self, x):
+        return  x
