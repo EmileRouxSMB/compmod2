@@ -118,7 +118,7 @@ if job_completed:
                   "argiope": {"class": "Tensor6Field"},
                   "output_position": ELEMENT_CENTROID,
                   } ,
-             "EE": {"abq": (('EE', INTEGRATION_POINT, 
+            "EE": {"abq": (('EE', INTEGRATION_POINT, 
                               ((COMPONENT, 'EE11'),  
                                (COMPONENT, 'EE22'), 
                                (COMPONENT, 'EE33'), 
@@ -128,7 +128,17 @@ if job_completed:
                           )),),
                   "argiope": {"class": "Tensor6Field"},
                   "output_position": ELEMENT_CENTROID,
-                  } ,                                              
+                  } , 
+            "Seq": {"abq": (('S', INTEGRATION_POINT, 
+                              ((INVARIANT, 'Mises'),                                  
+                          )),),
+                  "argiope": {"class": "ScalarField"},
+                  "output_position": ELEMENT_CENTROID,
+                  },
+            "PEEQ": {"abq": (('PEEQ', INTEGRATION_POINT,()),),
+                  "argiope": {"class": "ScalarField"},
+                  "output_position": ELEMENT_CENTROID,
+                  },
             "U":  {"abq": (('U', NODAL, 
                           ((COMPONENT, 'U1'),  
                            (COMPONENT, 'U2'), 
@@ -138,6 +148,7 @@ if job_completed:
                    "output_position": NODAL,        
                   }          
            }
+  print(fields)
   for instance in instances:
     for stepNum in xrange(len(stepKeys)):
       stepKey = stepKeys[stepNum]
@@ -150,6 +161,7 @@ if job_completed:
                         stepNum,
                         frameNum,
                         fieldKey,))
+          print("fieldKey=",fieldKey)
           abqpostproc.write_field_report(odb = odb,
                                          path = path,
                                          label = fieldKey,

@@ -102,11 +102,11 @@ class RVETest(argiope.models.Model, argiope.utils.Container):
                                       coefficients = [1., -1., -1.],
                                       comment = "BOTTOM-TOP NORMAL PAIRS") + "\n"
         bc += argiope.utils._equation(nodes = ["ufront", "uback", "control"], 
-                                      dofs = [3,3,3], 
-                                      coefficients = [1., -1., -1.],
-                                      comment = "BACK-FRONT NORMAL PAIRS") + "\n"
+                                     dofs = [3,3,3], 
+                                     coefficients = [1., -1., -1.],
+                                     comment = "BACK-FRONT NORMAL PAIRS") + "\n"
 
-    
+
     
     out = Template(main_template).substitute(
                 MESH = sample.mesh.write_inp(),
@@ -177,12 +177,27 @@ class RVETest(argiope.models.Model, argiope.utils.Container):
         temp["step"] = data2.step.s  
         for s in range(len(self.steps)):
             step = self.steps[s]
-            if step.cx[0] ==  "free":
-                temp.loc[temp.step == s, "F"] = 0.
-            if step.cx[0] ==  "disp":
-                temp.loc[temp.step == s, "F"] = data.loc[data.step == s, "Rf{0}".format(i)]  
-            if step.cx[0] ==  "force":
-                temp.loc[temp.step == s, "F"] = data.loc[data.step == s, "Cf{0}".format(i)]     
+            if i==1:
+                if step.cx[0] ==  "free":
+                    temp.loc[temp.step == s, "F"] = 0.
+                if step.cx[0] ==  "disp":
+                    temp.loc[temp.step == s, "F"] = data.loc[data.step == s, "Rf{0}".format(i)]  
+                if step.cx[0] ==  "force":
+                    temp.loc[temp.step == s, "F"] = data.loc[data.step == s, "Cf{0}".format(i)]     
+            if i==2:
+                if step.cy[0] ==  "free":
+                    temp.loc[temp.step == s, "F"] = 0.
+                if step.cy[0] ==  "disp":
+                    temp.loc[temp.step == s, "F"] = data.loc[data.step == s, "Rf{0}".format(i)]  
+                if step.cy[0] ==  "force":
+                    temp.loc[temp.step == s, "F"] = data.loc[data.step == s, "Cf{0}".format(i)] 
+            if i==3:
+                if step.cz[0] ==  "free":
+                    temp.loc[temp.step == s, "F"] = 0.
+                if step.cz[0] ==  "disp":
+                    temp.loc[temp.step == s, "F"] = data.loc[data.step == s, "Rf{0}".format(i)]  
+                if step.cz[0] ==  "force":
+                    temp.loc[temp.step == s, "F"] = data.loc[data.step == s, "Cf{0}".format(i)]    
         data2[("forces", "F{0}".format(i))] = temp.F
       # Stresses
       data2[("stress", "S11")] = data2.forces.F1 / data2.areas.A1
